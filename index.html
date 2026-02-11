@@ -298,7 +298,7 @@
         </div>
         <div class="attacks-section">
             <h2 class="section-title">Attacks</h2>
-            <div class="attack-item" onclick="rollAttack('Longsword +1', 8, '1d8', 5, 'Slashing')"><span class="attack-name">⚔ Longsword +1</span><span class="attack-hit">+8</span><span class="attack-damage">1d8 + 5 slashing</span><span class="attack-notes">INT + magic</span></div>
+            <div class="attack-item" onclick="rollAttack('Arcanum Edge', 8, '1d8', 5, 'Slashing')"><span class="attack-name">⚔ Arcanum Edge</span><span class="attack-hit">+8</span><span class="attack-damage">1d8 + 5 slashing</span><span class="attack-notes">Legendary • Spellstrike</span></div>
             <div class="attack-item" onclick="rollAttack('Defender Rend', 7, '1d8', 6, 'Force')"><span class="attack-name">🛡 Defender: Rend</span><span class="attack-hit">+8</span><span class="attack-damage">1d8 + 6 force</span><span class="attack-notes">Bonus Action command or in place of one attack</span></div>
         </div>
         <div class="features-section">
@@ -379,6 +379,18 @@
                 <div class="magic-item-card inactive"><div class="magic-item-name">Sending Stones</div><div class="magic-item-rarity">Uncommon</div><div class="magic-item-status">Plan Known</div></div>
             </div>
         </div>
+        <div class="features-section" style="margin-bottom:25px;">
+            <h2 class="section-title">Arcanum Edge - Legendary Weapon</h2>
+            <div class="feature-category"><div class="feature-category-header copper">Dormant State</div><div class="feature-category-content">
+                <div class="feature-item"><span class="feature-name">Magic Weapon:</span> +1 bonus to attack and damage rolls</div>
+                <div class="feature-item"><span class="feature-name">Arcane Conduit:</span> Can be used as spellcasting focus for Artificer spells</div>
+                <div class="feature-item" style="margin-top:10px;"><span class="feature-name">Spellstrike:</span> When you take the Attack action, replace one attack with a Spellstrike. Cast an Artificer spell (1 action casting time) and infuse it into the weapon, then make a melee weapon attack.</div>
+                <div class="feature-sub">• <strong>Attack Roll Spells:</strong> If the spell requires an attack roll (melee or ranged), it automatically hits the target if the weapon attack hits and misses if the weapon attack misses.</div>
+                <div class="feature-sub">• <strong>Saving Throw Spells:</strong> If the spell requires a saving throw, a hit automatically deals damage as if the target failed its save. Any effects besides damage require the target to make the saving throw as normal (regardless of whether the attack hits or misses). If the spell deals half damage on a successful save, a missed attack deals half damage, treating it as a successful save. If a spell always hits (such as *magic missile*), the spell hits regardless of whether the weapon attack hits or misses.</div>
+                <div class="feature-sub">• <strong>Area of Effect:</strong> If the spell has an area of effect, that area must include the space the target occupies, and one edge of the area must be within the reach of this weapon. Other creatures in the area treat the spell as if you had cast it normally. The Spellstrike target is not affected by the spell again, having already resolved its effects as part of the attack.</div>
+                <div class="feature-sub">• <strong>Multiple Attacks:</strong> For spells with multiple attack rolls (such as *scorching ray*), only the first attack roll is tied to the melee weapon attack. Subsequent attack rolls resolve as if you had cast the spell normally, but you ignore disadvantage on ranged spell attack rolls from being within 5 feet of hostile creatures.</div>
+            </div></div>
+        </div>
         <div class="defender-section">
             <h2 class="section-title">Steel Defender</h2>
             <div class="defender-box">
@@ -425,8 +437,8 @@
                 <div class="slot-box"><div class="slot-label">3rd Level</div><div class="slot-checkboxes"><input type="checkbox" class="slot-checkbox"><input type="checkbox" class="slot-checkbox"></div></div>
             </div>
             <div class="spell-level"><div class="spell-level-header">Cantrips</div><div class="spell-level-content">
-                <span class="spell-link" data-spell="mending">Mending</span>, 
-                <span class="spell-link" data-spell="true-strike">True Strike</span>, 
+                <span class="spell-link" data-spell="mending">Mending</span>,
+                <span class="spell-link" data-spell="shocking-grasp">Shocking Grasp</span>,
                 <span class="spell-link" data-spell="prestidigitation">Prestidigitation</span>
             </div></div>
             <div class="spell-level"><div class="spell-level-header">1st Level</div><div class="spell-level-content">
@@ -527,10 +539,10 @@
             "mending": { name:"Mending", level:"Cantrip", school:"Transmutation", type:"cantrip",
                 castingTime:"1 Minute", range:"Touch", components:"V, S, M (two lodestones)", duration:"Instantaneous",
                 description:`<p>This spell repairs a single break or tear in an object you touch, such as a broken chain link, two halves of a broken key, a torn cloak, or a leaking wineskin. As long as the break or tear is no larger than 1 foot in any dimension, you mend it, leaving no trace of the former damage.</p><p>This spell can physically repair a magic item or Construct, but can't restore magic to such an object.</p>` },
-            "true-strike": { name:"True Strike", level:"Cantrip", school:"Divination", type:"cantrip",
-                castingTime:"Action", range:"Self", components:"S, M (a weapon worth 1+ SP)", duration:"Instantaneous",
-                description:`<p>Guided by a flash of magical insight, you make one attack with the weapon used in the spell's casting. The attack uses your spellcasting ability modifier for the attack and damage rolls instead of Strength or Dexterity. If the attack deals damage, it can be Radiant damage or the weapon's normal damage type (your choice).</p>`,
-                upcast:"At level 5 the spell deals an extra 1d6 Radiant damage. The extra damage increases by 1d6 at levels 11 (2d6) and 17 (3d6)." },
+            "shocking-grasp": { name:"Shocking Grasp", level:"Cantrip", school:"Evocation", type:"cantrip",
+                castingTime:"Action", range:"Touch", components:"V, S", duration:"Instantaneous",
+                description:`<p>You extend your hand and deliver a shock of lightning to a creature you try to touch. Make a melee spell attack against the target. You have Advantage on the attack roll if the target is wearing armor made of metal. On a hit, the target takes 1d8 Lightning damage, and it can't make Opportunity Attacks until the start of its next turn.</p>`,
+                upcast:"The damage increases by 1d8 when you reach levels 5 (2d8), 11 (3d8), and 17 (4d8)." },
             "prestidigitation": { name:"Prestidigitation", level:"Cantrip", school:"Transmutation", type:"cantrip",
                 castingTime:"Action", range:"10 feet", components:"V, S", duration:"Up to 1 hour",
                 description:`<p>This spell is a minor magical trick. You create one of the following effects within range:</p><p>• An instantaneous, harmless sensory effect (sparks, puff of wind, faint music, odd odor).</p><p>• Instantaneously light or snuff out a candle, torch, or small campfire.</p><p>• Instantaneously clean or soil an object no larger than 1 cubic foot.</p><p>• Chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour.</p><p>• Make a color, small mark, or symbol appear on an object or surface for 1 hour.</p><p>• Create a nonmagical trinket or illusory image that fits in your hand, lasting until end of your next turn.</p><p>You can have up to three non-instantaneous effects active at a time.</p>` },
