@@ -147,12 +147,12 @@
         .spell-level-content { padding:12px 15px; font-size:0.95rem; line-height:1.8; }
         .spell-tag { font-size:0.65rem; padding:2px 6px; border-radius:3px; text-transform:uppercase; font-weight:600; vertical-align:middle; margin-left:2px; }
         .spell-tag.subclass { background:var(--copper); color:#fff; }
-        .attack-item { background:var(--parchment-dark); border:1px solid var(--border-ornate); border-radius:6px; padding:12px 15px; display:flex; align-items:center; gap:15px; margin-bottom:8px; cursor:pointer; transition:all 0.15s ease; }
+        .attack-item { background:var(--parchment-dark); border:1px solid var(--border-ornate); border-radius:6px; padding:12px 15px; display:flex; align-items:center; gap:10px; margin-bottom:8px; cursor:pointer; transition:all 0.15s ease; flex-wrap:wrap; }
         .attack-item:hover { transform:translateY(-1px); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-        .attack-name { font-family:'Cinzel',serif; font-weight:600; color:var(--ink); min-width:140px; }
-        .attack-hit { font-family:'Cinzel',serif; font-weight:700; color:var(--copper); min-width:50px; }
+        .attack-name { font-family:'Cinzel',serif; font-weight:600; color:var(--ink); min-width:100px; flex-shrink:0; }
+        .attack-hit { font-family:'Cinzel',serif; font-weight:700; color:var(--copper); flex-shrink:0; }
         .attack-damage { font-family:'Cinzel',serif; font-weight:600; color:var(--steel); }
-        .attack-notes { font-size:0.8rem; color:var(--ink-light); font-style:italic; margin-left:auto; }
+        .attack-notes { font-size:0.8rem; color:var(--ink-light); font-style:italic; margin-left:auto; flex-shrink:0; }
         .defender-section { margin-bottom:25px; }
         .defender-box { background:linear-gradient(135deg,rgba(74,85,104,0.08) 0%,var(--parchment-dark) 100%); border:2px solid var(--steel); border-radius:8px; overflow:hidden; }
         .defender-header { background:linear-gradient(135deg,var(--steel) 0%,var(--steel-light) 100%); padding:12px 15px; display:flex; justify-content:space-between; align-items:center; }
@@ -230,7 +230,8 @@
             .defender-abilities { grid-template-columns:repeat(3,1fr); }
             .tinker-ability-grid { grid-template-columns:1fr; }
         }
-        @media (max-width:480px) { .skills-grid { grid-template-columns:1fr; } .abilities-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:480px) { .skills-grid { grid-template-columns:1fr; } .abilities-grid { grid-template-columns:repeat(2,1fr); }
+            .attack-name { min-width:auto; width:100%; } .attack-notes { margin-left:0; } }
         @media print { body { background:white; padding:0; } .sheet { box-shadow:none; border:1px solid #ccc; } }
     </style>
 </head>
