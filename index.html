@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roy Mustang - Human Battle Smith</title>
+    <title>Row Mustang - Human Battle Smith</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -253,7 +253,7 @@
                 <div class="ability-box"><div class="ability-name">STR</div><div class="ability-score">10</div><div class="ability-mod">+0</div><div class="ability-separator"></div><div class="ability-save" data-save="Strength" data-bonus="0">+0</div></div>
                 <div class="ability-box"><div class="ability-name">DEX</div><div class="ability-score">14</div><div class="ability-mod">+2</div><div class="ability-separator"></div><div class="ability-save" data-save="Dexterity" data-bonus="2">+2</div></div>
                 <div class="ability-box prof"><div class="ability-name">CON</div><div class="ability-score">16</div><div class="ability-mod">+3</div><div class="ability-separator"></div>
-                    <div class="ability-save-dual"><div class="ability-save" data-save="Constitution" data-bonus="6">+6</div><div class="ability-save-divider">|</div><div class="ability-save conc" data-save="Concentration" data-bonus="6">+6</div></div>
+                    <div class="ability-save-dual"><div class="ability-save" data-save="Constitution" data-bonus="6">+6</div><div class="ability-save-divider">|</div><div class="ability-save conc" data-save="Concentration" data-bonus="6" data-advantage="true">+6</div></div>
                     <div class="ability-save-labels"><span>save</span><span>conc (adv)</span></div>
                 </div>
                 <div class="ability-box prof"><div class="ability-name">INT</div><div class="ability-score">18</div><div class="ability-mod">+4</div><div class="ability-separator"></div><div class="ability-save" data-save="Intelligence" data-bonus="7">+7</div></div>
@@ -299,7 +299,7 @@
         <div class="attacks-section">
             <h2 class="section-title">Attacks</h2>
             <div class="attack-item" onclick="rollAttack('Arcanum Edge', 8, '1d8', 5, 'Slashing')"><span class="attack-name">⚔ Arcanum Edge</span><span class="attack-hit">+8</span><span class="attack-damage">1d8 + 5 slashing</span><span class="attack-notes">Legendary • Spellstrike</span></div>
-            <div class="attack-item" onclick="rollAttack('Defender Rend', 7, '1d8', 6, 'Force')"><span class="attack-name">🛡 Defender: Rend</span><span class="attack-hit">+7</span><span class="attack-damage">1d8 + 6 force</span><span class="attack-notes">Bonus Action command or in place of one attack</span></div>
+            <div class="attack-item" onclick="rollAttack('Defender Rend', 7, '1d8', 6, 'Force')"><span class="attack-name">🛡 Defender: Rend</span><span class="attack-hit">+8</span><span class="attack-damage">1d8 + 6 force</span><span class="attack-notes">Bonus Action command or in place of one attack</span></div>
         </div>
         <div class="features-section">
             <h2 class="section-title">Features & Traits</h2>
@@ -641,6 +641,24 @@
             diceToastTimeout=setTimeout(()=>toast.classList.remove('show'),2000);
         }
 
+        function showAdvantageRoll(skillName, bonus) {
+            const roll1 = rollD20();
+            const roll2 = rollD20();
+            const bestRoll = Math.max(roll1, roll2);
+            const total = bestRoll + bonus;
+            const toast = document.getElementById('diceToast');
+            document.getElementById('diceSkill').textContent = skillName;
+            document.getElementById('diceResult').textContent = total;
+            document.getElementById('diceBreakdown').textContent = `🎲 ${roll1} | ${roll2} → ${bestRoll} ${bonus >= 0 ? '+' : ''}${bonus}`;
+            toast.classList.remove('crit', 'fail');
+            if (bestRoll === 20) { toast.classList.add('crit'); document.getElementById('diceLabel').textContent = '¡Natural 20! (Advantage)'; }
+            else if (roll1 === 1 && roll2 === 1) { toast.classList.add('fail'); document.getElementById('diceLabel').textContent = 'Double 1... (Advantage)'; }
+            else { document.getElementById('diceLabel').textContent = 'Advantage'; }
+            if (diceToastTimeout) clearTimeout(diceToastTimeout);
+            toast.classList.add('show');
+            diceToastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
         function rollAttack(name, hitBonus, diceStr, dmgBonus, dmgType) {
             const roll=rollD20(), total=roll+hitBonus;
             const toast=document.getElementById('diceToast');
@@ -665,7 +683,16 @@
             if(toast.classList.contains('show') && !e.target.closest('.skill-item') && !e.target.closest('.ability-save') && !e.target.closest('.initiative-roll') && !e.target.closest('.spell-stat') && !e.target.closest('.attack-item')) { hideDiceToast(); }
         });
         document.querySelectorAll('.skill-item').forEach(item => { item.addEventListener('click', function() { showDiceRoll(this.dataset.skill, parseInt(this.dataset.bonus)); }); });
-        document.querySelectorAll('.ability-save').forEach(item => { item.addEventListener('click', function(e) { e.stopPropagation(); showDiceRoll(this.dataset.save+' Save', parseInt(this.dataset.bonus)); }); });
+        document.querySelectorAll('.ability-save').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (this.dataset.advantage === 'true') {
+                    showAdvantageRoll(this.dataset.save, parseInt(this.dataset.bonus));
+                } else {
+                    showDiceRoll(this.dataset.save + ' Save', parseInt(this.dataset.bonus));
+                }
+            });
+        });
         document.querySelector('.initiative-roll').addEventListener('click', function(e) { e.stopPropagation(); showDiceRoll('Initiative', parseInt(this.dataset.bonus)); });
 
         function showRestToast(title, message) {
