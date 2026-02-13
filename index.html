@@ -442,7 +442,7 @@
                 <span class="spell-link" data-spell="prestidigitation">Prestidigitation</span>
             </div></div>
             <div class="spell-level"><div class="spell-level-header">1st Level</div><div class="spell-level-content">
-                <span class="spell-link" data-spell="heroism">Heroism</span> <span class="spell-tag subclass">BS</span>, 
+                <span class="spell-link" data-spell="chromatic-orb">Chromatic Orb</span> <span class="spell-tag subclass">BS</span>, 
                 <span class="spell-link" data-spell="shield">Shield</span> <span class="spell-tag subclass">BS</span>, 
                 <span class="spell-link" data-spell="cure-wounds">Cure Wounds</span>, 
                 <span class="spell-link" data-spell="disguise-self">Disguise Self</span>, 
@@ -548,8 +548,12 @@
                 description:`<p>This spell is a minor magical trick. You create one of the following effects within range:</p><p>• An instantaneous, harmless sensory effect (sparks, puff of wind, faint music, odd odor).</p><p>• Instantaneously light or snuff out a candle, torch, or small campfire.</p><p>• Instantaneously clean or soil an object no larger than 1 cubic foot.</p><p>• Chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour.</p><p>• Make a color, small mark, or symbol appear on an object or surface for 1 hour.</p><p>• Create a nonmagical trinket or illusory image that fits in your hand, lasting until end of your next turn.</p><p>You can have up to three non-instantaneous effects active at a time.</p>` },
             "heroism": { name:"Heroism", level:"1st", school:"Enchantment", type:"subclass",
                 castingTime:"Action", range:"Touch", components:"V, S", duration:"Concentration, up to 1 minute",
-                description:`<p>A willing creature you touch is imbued with bravery. Until the spell ends, the creature is immune to the Frightened condition and gains Temporary Hit Points equal to your spellcasting ability modifier (+4) at the start of each of its turns.</p>`,
+                description:`<p>You hurl an orb of energy at a target within range. Choose Acid, Cold, Fire, Lightning, Poison, or Thunder for the type of orb you create, and then make a ranged spell attack against the target. On a hit, the target takes 3d8 damage of the chosen type.</p>`,
                 upcast:"Target one additional creature for each slot level above 1." },
+            "chromatic-orb": { name:"Chromatic Orb", level:"1st", school:"Evocation", type:"subclass",
+                castingTime:"Action", range:"Touch", components:"V, S", duration:"Concentration, up to 1 minute",
+                description:`<p>A willing creature you touch is imbued with bravery. Until the spell ends, the creature is immune to the Frightened condition and gains Temporary Hit Points equal to your spellcasting ability modifier (+4) at the start of each of its turns.</p><p>If you roll the same number on two or more of the d8s, the orb leaps to a different target of your choice within 30 feet of the target. Make an attack roll against the new target, and make a new damage roll. The orb can’t leap again unless you cast the spell with a level 2+ spell slot.</p>`,
+                upcast:"The damage increases by 1d8 for each spell slot level above 1. The orb can leap a maximum number of times equal to the level of the slot expended, and a creature can be targeted only once by each casting of this spell." },
             "shield": { name:"Shield", level:"1st", school:"Abjuration", type:"subclass",
                 castingTime:"Reaction (when hit by attack or targeted by Magic Missile)", range:"Self", components:"V, S", duration:"1 round",
                 description:`<p>An invisible barrier of magical force protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from Magic Missile.</p>` },
