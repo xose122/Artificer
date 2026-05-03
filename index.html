@@ -189,6 +189,14 @@
         .flash-charge { width:24px; height:24px; border:2px solid var(--gold); border-radius:50%; background:var(--parchment); cursor:pointer; transition:all 0.2s; }
         .flash-charge.used { background:var(--gold); }
         .flash-desc { font-size:0.9rem; color:var(--ink-light); line-height:1.5; }
+        .arcane-jolt-section { margin-bottom:25px; }
+        .arcane-jolt-box { background:linear-gradient(135deg,rgba(184,115,51,0.12) 0%,var(--parchment-dark) 100%); border:2px solid var(--copper); border-radius:8px; padding:15px; }
+        .arcane-jolt-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+        .arcane-jolt-title { font-family:'Cinzel',serif; font-weight:600; font-size:1.1rem; color:var(--copper-dark); }
+        .arcane-jolt-charges { display:flex; gap:8px; }
+        .arcane-jolt-charge { width:24px; height:24px; border:2px solid var(--copper); border-radius:50%; background:var(--parchment); cursor:pointer; transition:all 0.2s; }
+        .arcane-jolt-charge.used { background:var(--copper); }
+        .arcane-jolt-desc { font-size:0.9rem; color:var(--ink-light); line-height:1.5; }
         .tinker-section { margin-bottom:25px; }
         .tinker-box { background:var(--parchment-dark); border:1px solid var(--border-ornate); border-radius:6px; padding:15px; }
         .tinker-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
@@ -308,7 +316,7 @@
                 <div class="feature-item"><span class="feature-name">Versatile:</span> Skilled (3 extra proficiencies), Tough (+2 HP/level)</div>
             </div></div>
             <div class="feature-category"><div class="feature-category-header">Artificer Features (Level 9)</div><div class="feature-category-content">
-                <div class="feature-item"><span class="feature-name">Tinker's Magic:</span> Create mundane items (Magic action). 4 uses/Long Rest</div>
+                <div class="feature-item"><span class="feature-name">Tinker's Magic:</span> Create mundane items (Magic action). 5 uses/Long Rest</div>
                 <div class="feature-item"><span class="feature-name">Replicate Magic Item:</span> 5 plans known, 3 items created at end of Long Rest</div>
                 <div class="feature-item"><span class="feature-name">Magic Item Tinker:</span> Charge, Drain, or Transmute created magic items</div>
                 <div class="feature-item"><span class="feature-name">Flash of Genius</span> (5/LR, Reaction): +5 (INT) to failed check or save within 30 ft</div>
@@ -348,16 +356,36 @@
                 <div class="flash-desc"><strong>Reaction:</strong> When you or a creature within 30 ft fails an ability check or saving throw, add +5 (INT) to the roll.</div>
             </div>
         </div>
+        <div class="arcane-jolt-section">
+            <h2 class="section-title">Arcane Jolt</h2>
+            <div class="arcane-jolt-box">
+                <div class="arcane-jolt-header">
+                    <span class="arcane-jolt-title">⚙ Charges (5/Long Rest, 1/turn)</span>
+                    <div class="arcane-jolt-charges">
+                        <div class="arcane-jolt-charge" id="arcaneJoltCharge1" onclick="toggleArcaneJoltCharge(1)"></div>
+                        <div class="arcane-jolt-charge" id="arcaneJoltCharge2" onclick="toggleArcaneJoltCharge(2)"></div>
+                        <div class="arcane-jolt-charge" id="arcaneJoltCharge3" onclick="toggleArcaneJoltCharge(3)"></div>
+                        <div class="arcane-jolt-charge" id="arcaneJoltCharge4" onclick="toggleArcaneJoltCharge(4)"></div>
+                        <div class="arcane-jolt-charge" id="arcaneJoltCharge5" onclick="toggleArcaneJoltCharge(5)"></div>
+                    </div>
+                </div>
+                <div class="arcane-jolt-desc">When either you hit a target with an attack roll using a <strong>magic weapon</strong> or your <strong>Steel Defender</strong> hits a target, you can channel magical energy through the strike to create one of the following effects:<br><br>
+                • <strong>Destructive Energy.</strong> The target takes an extra <strong>2d6 Force</strong> damage.<br>
+                • <strong>Restorative Energy.</strong> Choose one creature or object you can see within 30 feet of the target. Healing energy flows into the chosen recipient, restoring <strong>2d6 Hit Points</strong> to it.<br><br>
+                You can use this energy a number of times equal to your Intelligence modifier (minimum of once), but you can do so no more than <strong>once per turn</strong>. You regain all expended uses when you finish a <strong>Long Rest</strong>.</div>
+            </div>
+        </div>
         <div class="tinker-section">
             <h2 class="section-title">Tinker's Magic</h2>
             <div class="tinker-box">
                 <div class="tinker-header">
-                    <span class="tinker-title">Create Mundane Items (4/LR)</span>
+                    <span class="tinker-title">Create Mundane Items (5/LR)</span>
                     <div class="tinker-charges">
                         <div class="tinker-charge" id="tinkerCharge1" onclick="toggleTinkerCharge(1)"></div>
                         <div class="tinker-charge" id="tinkerCharge2" onclick="toggleTinkerCharge(2)"></div>
                         <div class="tinker-charge" id="tinkerCharge3" onclick="toggleTinkerCharge(3)"></div>
                         <div class="tinker-charge" id="tinkerCharge4" onclick="toggleTinkerCharge(4)"></div>
+                        <div class="tinker-charge" id="tinkerCharge5" onclick="toggleTinkerCharge(5)"></div>
                     </div>
                 </div>
                 <div class="tinker-desc">Magic action + Tinker's Tools. Create one item (rope, net, crowbar, torch, etc.) within 5 ft. Lasts until Long Rest.</div>
@@ -552,13 +580,14 @@
     <script>
         const STORAGE_KEY = 'artificer_battlesmith_sheet';
         function saveState() {
-            const state = { spellSlots:[], flashCharges:[], tinkerCharges:[], repairCharges:[],
+            const state = { spellSlots:[], flashCharges:[], arcaneJoltCharges:[], tinkerCharges:[], repairCharges:[],
                 drainUsed: document.getElementById('drainCharge').classList.contains('used'),
                 transmuteUsed: document.getElementById('transmuteCharge').classList.contains('used'),
                 defenderHP: document.getElementById('defenderHP').value };
             document.querySelectorAll('.slot-checkbox').forEach(cb => state.spellSlots.push(cb.checked));
             for(let i=1;i<=5;i++) state.flashCharges.push(document.getElementById('flashCharge'+i).classList.contains('used'));
-            for(let i=1;i<=4;i++) state.tinkerCharges.push(document.getElementById('tinkerCharge'+i).classList.contains('used'));
+            for(let i=1;i<=5;i++) state.arcaneJoltCharges.push(document.getElementById('arcaneJoltCharge'+i).classList.contains('used'));
+            for(let i=1;i<=5;i++) state.tinkerCharges.push(document.getElementById('tinkerCharge'+i).classList.contains('used'));
             for(let i=1;i<=3;i++) state.repairCharges.push(document.getElementById('repairCharge'+i).classList.contains('used'));
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         }
@@ -570,6 +599,7 @@
                 const slots = document.querySelectorAll('.slot-checkbox');
                 state.spellSlots.forEach((c,i) => { if(slots[i]) slots[i].checked = c; });
                 state.flashCharges.forEach((u,i) => { if(u) document.getElementById('flashCharge'+(i+1)).classList.add('used'); });
+                if(state.arcaneJoltCharges) state.arcaneJoltCharges.forEach((u,i) => { if(u) document.getElementById('arcaneJoltCharge'+(i+1)).classList.add('used'); });
                 state.tinkerCharges.forEach((u,i) => { if(u) document.getElementById('tinkerCharge'+(i+1)).classList.add('used'); });
                 state.repairCharges.forEach((u,i) => { if(u) document.getElementById('repairCharge'+(i+1)).classList.add('used'); });
                 if(state.drainUsed) document.getElementById('drainCharge').classList.add('used');
@@ -581,6 +611,7 @@
         document.addEventListener('DOMContentLoaded', () => { loadState(); setupAutoSave(); });
 
         function toggleFlashCharge(n) { document.getElementById('flashCharge'+n).classList.toggle('used'); saveState(); }
+        function toggleArcaneJoltCharge(n) { document.getElementById('arcaneJoltCharge'+n).classList.toggle('used'); saveState(); }
         function toggleTinkerCharge(n) { document.getElementById('tinkerCharge'+n).classList.toggle('used'); saveState(); }
         function toggleRepairCharge(n) { document.getElementById('repairCharge'+n).classList.toggle('used'); saveState(); }
         function toggleDrainCharge() { document.getElementById('drainCharge').classList.toggle('used'); saveState(); }
@@ -590,7 +621,8 @@
         function longRest() {
             document.querySelectorAll('.slot-checkbox').forEach(cb => cb.checked = false);
             for(let i=1;i<=5;i++) document.getElementById('flashCharge'+i).classList.remove('used');
-            for(let i=1;i<=4;i++) document.getElementById('tinkerCharge'+i).classList.remove('used');
+            for(let i=1;i<=5;i++) document.getElementById('arcaneJoltCharge'+i).classList.remove('used');
+            for(let i=1;i<=5;i++) document.getElementById('tinkerCharge'+i).classList.remove('used');
             for(let i=1;i<=3;i++) document.getElementById('repairCharge'+i).classList.remove('used');
             document.getElementById('drainCharge').classList.remove('used');
             document.getElementById('transmuteCharge').classList.remove('used');
