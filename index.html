@@ -48,6 +48,11 @@
         .spell-description { font-size:0.95rem; line-height:1.6; }
         .spell-description p { margin-bottom:10px; }
         .spell-description p:last-child { margin-bottom:0; }
+        .spell-description ul, .spell-description ol { margin: 8px 0 10px 20px; padding-left: 8px; }
+        .spell-description li { margin-bottom: 4px; list-style: disc; }
+        .spell-description table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9rem; }
+        .spell-description th, .spell-description td { border: 1px solid #c9a227; padding: 4px 10px; text-align: center; }
+        .spell-description th { background: rgba(201,162,39,0.2); font-weight: 600; }
         .spell-upcast { margin-top:15px; padding-top:15px; border-top:1px dashed var(--copper); font-size:0.9rem; color:var(--ink-light); }
         .spell-upcast strong { color:var(--copper-dark); }
         .spell-link { cursor:pointer; border-bottom:1px dotted var(--ink-light); transition:all 0.2s; }
@@ -147,6 +152,8 @@
         .spell-level-content { padding:12px 15px; font-size:0.95rem; line-height:1.8; }
         .spell-tag { font-size:0.65rem; padding:2px 6px; border-radius:3px; text-transform:uppercase; font-weight:600; vertical-align:middle; margin-left:2px; }
         .spell-tag.subclass { background:var(--copper); color:#fff; }
+        .spell-tag.urzha { background: #7a1a1a; color: #fff; }
+        .spell-popup-header.urzha { background: linear-gradient(135deg, #7a1a1a 0%, #9b2c2c 100%); }
         .attack-item { background:var(--parchment-dark); border:1px solid var(--border-ornate); border-radius:6px; padding:12px 15px; display:flex; align-items:center; gap:10px; margin-bottom:8px; cursor:pointer; transition:all 0.15s ease; flex-wrap:wrap; }
         .attack-item:hover { transform:translateY(-1px); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
         .attack-name { font-family:'Cinzel',serif; font-weight:600; color:var(--ink); min-width:100px; flex-shrink:0; }
@@ -542,6 +549,7 @@
             <div class="spell-level"><div class="spell-level-header">2nd Level</div><div class="spell-level-content">
                 <span class="spell-link" data-spell="shining-smite">Shining Smite</span> <span class="spell-tag subclass">BS</span>,
                 <span class="spell-link" data-spell="warding-bond">Warding Bond</span> <span class="spell-tag subclass">BS</span>,
+                <span class="spell-link" data-spell="simple-territory">Simple Territory</span> <span class="spell-tag urzha">URZ</span>,
                 <span class="spell-link" data-spell="invisibility">Invisibility</span>,
                 <span class="spell-link" data-spell="blur">Blur</span>,
                 <span class="spell-link" data-spell="homunculus-servant">Homunculus Servant</span>,
@@ -704,7 +712,19 @@
             "intellect-fortress": { name:"Intellect Fortress", level:"3rd", school:"Abjuration", type:"normal",
                 castingTime:"Action", range:"30 feet", components:"V", duration:"Concentration, up to 1 hour",
                 description:`<p>For the duration, you or one willing creature you can see within range has Resistance to Psychic damage and Advantage on Intelligence, Wisdom, and Charisma saving throws.</p>`,
-                upcast:"You can target one additional creature for each spell slot level above 3rd." }
+                upcast:"You can target one additional creature for each spell slot level above 3rd." },
+            // Urzha
+            "simple-territory": { name:"Simple Territory", level:"2nd", school:"Abjuration", type:"urzha",
+                castingTime:"1 Action", range:"Self (60-foot-radius Sphere)", components:"V, S", duration:"Concentration, up to 1 minute",
+                description:`<p>You manifest an empty, formless field of will into the surrounding space. The Simple Territory has no shape of its own — it is a neutral expansion designed to nullify the central rule of Lethal Territories of the Self.</p>
+                <p><strong>Casting the Territory.</strong> When you take the Magic action to initiate this spell, you become the <em>primary caster</em> and choose any number of willing creatures within the Territory's area as <em>secondary casters</em>. Secondary casters may optionally share Concentration with you, if shared, the spell's effects remain active as long as at least one caster maintains Concentration. A caster whose Concentration is broken cannot resume sharing Concentration on this spell.</p>
+                <p><strong>Maintaining the Territory.</strong> If an enemy <em>Territory of the Self</em> is active in the same area, the upkeep cost is the enemy Territory's refinement divided by 10. When you cast this spell and at the start of each of your turns, you and any secondary casters must contribute Territory Points equal to or exceeding the upkeep cost by expending spell slots (no action required), converted using the Territory Points table. If the contributed points do not meet the upkeep cost in a given round, the Simple Territory ends.</p>
+                <p><strong>Effects.</strong> While the Simple Territory is active:</p>
+                <ul><li>No creature inside the area can teleport, plane shift, or otherwise leave the Territory by magical means.</li>
+                <li>If the Territory is active inside an enemy <em>Lethal Territory of the Self</em>, the enemy Territory's <em>sure-hit effect</em> is suppressed.</li></ul>
+                <p><strong>Breaking the Territory.</strong> A Simple Territory cannot be Dispelled. It ends only when all sharers lose or release Concentration, when the upkeep cost fails to be met in a given round, or when its duration expires.</p>
+                <table><thead><tr><th>Spell Level</th><th>Territory Points</th></tr></thead><tbody><tr><td>1st</td><td>2</td></tr><tr><td>2nd</td><td>3</td></tr><tr><td>3rd</td><td>5</td></tr><tr><td>4th</td><td>6</td></tr><tr><td>5th</td><td>7</td></tr><tr><td>6th</td><td>9</td></tr><tr><td>7th</td><td>10</td></tr><tr><td>8th</td><td>11</td></tr><tr><td>9th</td><td>13</td></tr></tbody></table>`
+            }
         };
 
         function openSpellPopup(spellId) {
